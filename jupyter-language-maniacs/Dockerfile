@@ -40,8 +40,6 @@ RUN apt-get install libzmq3-dev libtool libtool autoconf -y && \
 
 SHELL ["/bin/bash", "-c"]
 
-ENV PATH "/opt/rbenv/shims:${PATH}"
-ENV RBENV_SHELL bash
 RUN source '/opt/rbenv/libexec/../completions/rbenv.bash'
 
 # Remove temporary files
