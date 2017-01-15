@@ -25,15 +25,18 @@ RUN apt-get update && apt-get install -y libreadline-dev && \
     git clone git://github.com/sstephenson/ruby-build.git
 
 ENV RBENV_ROOT "/opt/rbenv"
-ENV PATH "$HOME/.rbenv/bin:${RBENV_ROOT}/bin:${PATH}:/opt/local/bin"
+ENV PATH "/opt/rbenv/shims:${PATH}:$HOME/.rbenv/bin:${RBENV_ROOT}/bin:${PATH}:/opt/local/bin"
+ENV RBENV_SHELL bash
 
-RUN cd /opt/rbenv/plugins && \
-    eval "$(rbenv init -)" && \
+RUN apt-get install libzmq3-dev libtool libtool autoconf -y && \
+    cd /opt/rbenv/plugins && \
     rbenv install 2.4.0 && \
     rbenv global 2.4.0 && \
+    gem install rbczmq && \
     gem install cztop && \
     gem install iruby && \
-    echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+    echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh && \
+    hash -r 2>/dev/null || true
 
 SHELL ["/bin/bash", "-c"]
 
